@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct QiitaItem: Codable, Hashable {
+
+    var title: String
+}
