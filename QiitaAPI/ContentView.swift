@@ -8,14 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var viewModel = ItemListViewModel(apiClient: APIClient())
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List {
+                ForEach(viewModel.items, id: \.self) { item in
+                    Text(item.title)
+                }
+            }
+            .navigationTitle("Qiita Articles")
         }
-        .padding()
+
+        .task {
+            try? await viewModel.fetch()
+        }
     }
 }
 
